@@ -1,0 +1,11 @@
+.banner{
+    position: relative;
+  height: 300px;
+  overflow: hidden;
+}
+
+.bannerImage {
+    width: 100%; 
+    height: auto;
+    object-fit: cover; 
+  }

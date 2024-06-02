@@ -1,14 +1,13 @@
 import type { Metadata } from "next";
 import "./globals.css";
-import Navbar from "../components/Navbar";
-import ProfilePic from "../components/ProfilePic";
+import Profile from "../components/Profile";
 import "../styles/styles.css";
 
 export const metadata: Metadata = {
   title: "Yasin's Blog",
   description: "Created by Yasin Davids",
 };
-// dtubdtubtd
+
 export default function RootLayout({
   children,
 }: Readonly<{
@@ -17,7 +16,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className="pastel">
-        <ProfilePic />
+        <Profile />
         {children}
       </body>
     </html>
