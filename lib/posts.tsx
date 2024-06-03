@@ -1,8 +1,11 @@
 import fs from "fs";
 import path from "path";
+import { remark } from "remark";
+import html from "remark-html";
 
 const postsDirectory = path.join(process.cwd(), "blogposts");
 const fm = require("front-matter");
+const gm = require("gray-matter");
 
 export function getSortedPosts() {
   // Get file names under posts
@@ -27,4 +30,27 @@ export function getSortedPosts() {
     return blogPost;
   });
   return allPostsData.sort((a, b) => (a.date < b.date ? 1 : -1));
+}
+
+export async function getPostsData(id: string) {
+  "use server";
+  const fullPath = path.join(postsDirectory, `${id}.md`);
+  const fileContents = fs.readFileSync(fullPath, "utf-8");
+
+  const matterResults = gm(fileContents);
+
+  const processedContent = await remark()
+    .use(html)
+    .process(matterResults.content);
+
+  const contentHtml = processedContent.toString();
+
+  const blogPostWithHTML: BlogPost & { contentHtml: string } = {
+    id,
+    title: matterResults.data.title,
+    date: matterResults.data.date,
+    contentHtml,
+  };
+
+  return blogPostWithHTML;
 }
